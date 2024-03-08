@@ -1,3 +1,4 @@
+import DashboardLayout from "@/layouts/dashboard";
 import { RouteObject, RouterProvider, createHashRouter } from "react-router-dom";
 
 export default function Router() {
@@ -5,7 +6,7 @@ export default function Router() {
         {
             path: '/',
             element: (
-                <div></div>
+                <DashboardLayout />
             ),
         }, 
     ];
