@@ -1,10 +1,11 @@
 import { App as AntdApp } from 'antd';
+import Router from '@/router/index';
 
 function App() {
 
   return (
     <AntdApp>
-      <div>Hello word</div>
+      <Router />
     </AntdApp>
   )
 }
