@@ -1,5 +1,6 @@
 import DashboardLayout from "@/layouts/dashboard";
-import { RouteObject, RouterProvider, createHashRouter } from "react-router-dom";
+import { Navigate, RouteObject, RouterProvider, createHashRouter } from "react-router-dom";
+import GameListPage from "@/pages/game/list";
 
 export default function Router() {
     const routes: RouteObject[] = [
@@ -8,6 +9,24 @@ export default function Router() {
             element: (
                 <DashboardLayout />
             ),
+            children: [
+                {
+                    path: 'game',
+                    children: [
+                        {
+                            index: true,
+                            element: <Navigate to="list" replace />,
+                        },
+                        {
+                            path: 'list',
+                            element: <GameListPage />
+                        },
+                        {
+                            path: 'creation'
+                        }
+                    ]
+                },
+            ]
         }, 
     ];
   

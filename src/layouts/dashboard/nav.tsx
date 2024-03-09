@@ -10,7 +10,7 @@ export default function Nav() {
         key: 'game-list',
     }, {
         label: '运营数据',
-        key: 'operate-data',
+        key: 'business-analysis',
         children: [
             {
                 label: '游戏流量',
