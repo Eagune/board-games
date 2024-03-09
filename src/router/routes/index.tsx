@@ -1,21 +1,31 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { AppRouteObject } from "@/types/router";
 
 import GameListPage from "@/pages/game/list";
 
-const gameCreationRoutes: AppRouteObject[] = [
+export const gameCreationRoutes: AppRouteObject[] = [
     {
         index: true,
-        element: <Navigate to="list" replace />,
+        element: <Navigate to="area" replace />,
     },
     {
-        path: 'area'
+        path: 'area',
+        meta: { label: '游戏区域', key: '/game-creation/area' },
+    },
+    {
+        path: 'role',
+        meta: { label: '角色定义', key: '/game-creation/role' },
+    },
+    {
+        path: 'card',
+        meta: { label: '卡牌定义', key: '/game-creation/card' },
     }
 ]
 
 const routes: AppRouteObject[] = [
     {
         path: 'game-creation',
+        element: <Outlet />,
         children: gameCreationRoutes
     },
     {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
-import routes from '@/router/routes';
+import routes, { gameCreationRoutes } from '@/router/routes';
 import { AppRouteObject } from "@/types/router";
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import { useLocation, useMatches, useNavigate } from 'react-router-dom';
@@ -37,11 +37,17 @@ export default function Nav() {
     const { pathname } = useLocation();
 
     // state
-    const menuList = routeToMenuFn(routes);
+    // const menuList = routeToMenuFn(routes);
+    const [menuList, setMenuList] = useState<MenuItemType[]>([]);
     const [selectedKeys, setSelectedKeys] = useState<string[]>(['']);
     const [openKeys, setOpenKeys] = useState<string[]>([]);
 
     useEffect(() => {
+        if (pathname.indexOf('/game-creation') >= 0) {
+            setMenuList(routeToMenuFn(gameCreationRoutes));
+        } else {
+            setMenuList(routeToMenuFn(routes));
+        }
         const openKeys = matches
             .filter((match) => match.pathname !== '/')
             .map((match) => match.pathname);
