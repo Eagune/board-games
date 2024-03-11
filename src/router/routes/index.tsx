@@ -10,21 +10,21 @@ export const gameCreationRoutes: AppRouteObject[] = [
     },
     {
         path: 'area',
-        meta: { label: '游戏区域', key: '/game-creation/area' },
+        meta: { label: '游戏区域', key: '/game-creation/:id/area' },
     },
     {
         path: 'role',
-        meta: { label: '角色定义', key: '/game-creation/role' },
+        meta: { label: '角色定义', key: '/game-creation/:id/role' },
     },
     {
         path: 'card',
-        meta: { label: '卡牌定义', key: '/game-creation/card' },
+        meta: { label: '卡牌定义', key: '/game-creation/:id/card' },
     }
 ]
 
 const routes: AppRouteObject[] = [
     {
-        path: 'game-creation',
+        path: 'game-creation/:id',
         element: <Outlet />,
         children: gameCreationRoutes
     },

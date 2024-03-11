@@ -19,6 +19,10 @@ export default function GameListPage() {
         }
     })
 
+    const navigateToGame = (id: string) => {
+        navigate(`/game-creation/${id}/card`);
+    }
+
     const deleteGame = (record: Game) => {
         mutate(record.id);
     }
@@ -29,7 +33,11 @@ export default function GameListPage() {
     });
 
     const columns: ColumnsType<Game> = [
-        { title: '游戏名称', dataIndex: 'name' },
+        {
+            title: '游戏名称',
+            dataIndex: 'name',
+            render: (text, record) => <a onClick={() => navigateToGame(record.id)}>{text}</a>,
+        },
         { title: '游戏状态', dataIndex: 'status' },
         { title: '更新时间', dataIndex: 'updateTime' },
         {

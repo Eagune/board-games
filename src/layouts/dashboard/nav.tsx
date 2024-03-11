@@ -3,7 +3,7 @@ import { Menu, MenuProps } from 'antd';
 import routes, { gameCreationRoutes } from '@/router/routes';
 import { AppRouteObject } from "@/types/router";
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
-import { useLocation, useMatches, useNavigate } from 'react-router-dom';
+import { Params, useLocation, useMatches, useNavigate, useParams } from 'react-router-dom';
 
 const menuFilter = (items: AppRouteObject[]) => {
     return items.filter((item) => {
@@ -15,16 +15,18 @@ const menuFilter = (items: AppRouteObject[]) => {
     });
 };
 
-const routeToMenuFn = function (items: AppRouteObject[]) {
+const routeToMenuFn = function (items: AppRouteObject[], params: Params) {
     return menuFilter(items).map((item) => {
         const menuItem: any = [];
         const { meta, children } = item;
         if (meta) {
             const { key, label } = meta;
-            menuItem.key = key;
+            Object.keys(params).forEach(paramKey => {
+                menuItem.key = key.replace(`:${paramKey}`, params[paramKey] || '');
+            })
             menuItem.label = label;
             if (children) {
-                menuItem.children = routeToMenuFn(children);
+                menuItem.children = routeToMenuFn(children, params);
             }
         }
         return menuItem as MenuItemType;
@@ -35,28 +37,29 @@ export default function Nav() {
     const navigate = useNavigate();
     const matches = useMatches();
     const { pathname } = useLocation();
+    const params = useParams();
 
     // state
-    // const menuList = routeToMenuFn(routes);
     const [menuList, setMenuList] = useState<MenuItemType[]>([]);
     const [selectedKeys, setSelectedKeys] = useState<string[]>(['']);
     const [openKeys, setOpenKeys] = useState<string[]>([]);
 
     useEffect(() => {
         if (pathname.indexOf('/game-creation') >= 0) {
-            setMenuList(routeToMenuFn(gameCreationRoutes));
+            setMenuList(routeToMenuFn(gameCreationRoutes, params));
         } else {
-            setMenuList(routeToMenuFn(routes));
+            setMenuList(routeToMenuFn(routes, params));
         }
         const openKeys = matches
             .filter((match) => match.pathname !== '/')
             .map((match) => match.pathname);
         setOpenKeys(openKeys);
         setSelectedKeys([pathname]);
-    }, [pathname, matches]);
+    }, [pathname, matches, params]);
 
     // events
     const onClick: MenuProps['onClick'] = ({ key }) => {
+        // .replace(':id', id || '')
         navigate(key);
     };
     const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
