@@ -1,10 +1,17 @@
 import { Button, Card, Table } from "antd"
 import { ColumnsType } from "antd/es/table"
 import { Game } from "@/types/entity"
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from "react-router-dom"
+import gameService from "@/api/services/gameService";
 
 export default function GameListPage() {
     const navigate = useNavigate();
+
+    const { data } = useQuery({
+        queryKey: ['gameList'],
+        queryFn: gameService.getGameList,
+    });
 
     const columns: ColumnsType<Game> = [
         { title: '游戏名称', dataIndex: 'name' },
@@ -30,6 +37,7 @@ export default function GameListPage() {
                 rowKey="id"
                 size="small"
                 columns={columns}
+                dataSource={data}
                 scroll={{ x: 'max-content' }}
                 pagination={false}
             />
