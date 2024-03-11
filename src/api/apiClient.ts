@@ -25,18 +25,9 @@ axiosInstance.interceptors.request.use(
 
 // 响应拦截
 axiosInstance.interceptors.response.use(
-    (res: AxiosResponse<Result>) => {
+    (res: AxiosResponse) => {
         if (!res.data) throw new Error("sys.api.apiRequestFailed");
-
-        const { status, data, message } = res.data;
-        // 业务请求成功
-        const hasSuccess = data && Reflect.has(res.data, "status") && status === ResultEnum.SUCCESS;
-        if (hasSuccess) {
-            return data;
-        }
-
-        // 业务请求错误
-        throw new Error(message);
+        return res.data;
     },
     (error: AxiosError<Result>) => {
         const { response, message } = error || {};

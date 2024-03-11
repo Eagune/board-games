@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    margin: 0;
+}
+
+button {
+    background-color: inherit;
+    border: none;
+}
+
+button, [role="button"] {
+    cursor: pointer;
+}
+
+button, html [type='button'], [type='reset'], [type='submit'] {
+    -webkit-appearance: button;
+}
