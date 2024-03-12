@@ -21,8 +21,9 @@ const routeToMenuFn = function (items: AppRouteObject[], params: Params) {
         const { meta, children } = item;
         if (meta) {
             const { key, label } = meta;
+            menuItem.key = key;
             Object.keys(params).forEach(paramKey => {
-                menuItem.key = key.replace(`:${paramKey}`, params[paramKey] || '');
+                menuItem.key = menuItem.key.replace(`:${paramKey}`, params[paramKey] || '');
             })
             menuItem.label = label;
             if (children) {
