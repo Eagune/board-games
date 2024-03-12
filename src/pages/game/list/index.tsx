@@ -19,8 +19,9 @@ export default function GameListPage() {
         }
     })
 
-    const navigateToGame = (id: string) => {
-        navigate(`/game-creation/${id}/card`);
+    const navigateToGame = (game: Game) => {
+        window.currentGame = game;
+        navigate(`/game-creation/${game.id}/card`);
     }
 
     const deleteGame = (record: Game) => {
@@ -36,7 +37,7 @@ export default function GameListPage() {
         {
             title: '游戏名称',
             dataIndex: 'name',
-            render: (text, record) => <a onClick={() => navigateToGame(record.id)}>{text}</a>,
+            render: (text, record) => <a onClick={() => navigateToGame(record)}>{text}</a>,
         },
         { title: '游戏状态', dataIndex: 'status' },
         { title: '更新时间', dataIndex: 'updateTime' },
