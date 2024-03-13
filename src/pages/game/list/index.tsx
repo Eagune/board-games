@@ -49,7 +49,6 @@ export default function GameListPage() {
                 <Button onClick={() => deleteGame(record)}>删除</Button>
             ),
         },
-        
     ]
 
     const onClick = () => {

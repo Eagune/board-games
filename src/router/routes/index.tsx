@@ -3,11 +3,22 @@ import { AppRouteObject } from "@/types/router";
 
 import GameListPage from "@/pages/game/list";
 import GameGuard from "../components/game-guard";
+import CardPage from "@/pages/game/creation/card";
+import CardTypePage from "@/pages/game/creation/card/type";
 
 export const gameCreationRoutes: AppRouteObject[] = [
     {
         index: true,
-        element: <Navigate to="area" replace />,
+        element: <Navigate to="card" replace />,
+    },
+    {
+        path: 'card',
+        meta: { label: '卡牌定义', key: '/game-creation/:id/card' },
+        element: <CardPage />,
+    },
+    {
+        path: 'card/:cardId',
+        element: <CardTypePage />,
     },
     {
         path: 'area',
@@ -17,10 +28,6 @@ export const gameCreationRoutes: AppRouteObject[] = [
         path: 'role',
         meta: { label: '角色定义', key: '/game-creation/:id/role' },
     },
-    {
-        path: 'card',
-        meta: { label: '卡牌定义', key: '/game-creation/:id/card' },
-    }
 ]
 
 const routes: AppRouteObject[] = [

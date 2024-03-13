@@ -60,7 +60,6 @@ export default function Nav() {
 
     // events
     const onClick: MenuProps['onClick'] = ({ key }) => {
-        // .replace(':id', id || '')
         navigate(key);
     };
     const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
