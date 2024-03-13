@@ -1,44 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
 import routes, { gameCreationRoutes } from '@/router/routes';
-import { AppRouteObject } from "@/types/router";
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
-import { Params, useLocation, useMatches, useNavigate, useParams } from 'react-router-dom';
-
-const menuFilter = (items: AppRouteObject[]) => {
-    return items.filter((item) => {
-        const show = item.meta?.key;
-        if (show && item.children) {
-          item.children = menuFilter(item.children);
-        }
-        return show;
-    });
-};
-
-const routeToMenuFn = function (items: AppRouteObject[], params: Params) {
-    return menuFilter(items).map((item) => {
-        const menuItem: any = [];
-        const { meta, children } = item;
-        if (meta) {
-            const { key, label } = meta;
-            menuItem.key = key;
-            Object.keys(params).forEach(paramKey => {
-                menuItem.key = menuItem.key.replace(`:${paramKey}`, params[paramKey] || '');
-            })
-            menuItem.label = label;
-            if (children) {
-                menuItem.children = routeToMenuFn(children, params);
-            }
-        }
-        return menuItem as MenuItemType;
-    }) || [];
-};
+import { useLocation, useMatches, useNavigate, useParams } from 'react-router-dom';
+import { useRouteToMenuFn } from '@/router/hooks/use-route-to-menu';
+import { RouteMeta } from '@/types/router';
 
 export default function Nav() {
     const navigate = useNavigate();
     const matches = useMatches();
     const { pathname } = useLocation();
     const params = useParams();
+    const routeToMenuFn = useRouteToMenuFn();
 
     // state
     const [menuList, setMenuList] = useState<MenuItemType[]>([]);
@@ -47,20 +20,24 @@ export default function Nav() {
 
     useEffect(() => {
         if (pathname.indexOf('/game-creation') >= 0) {
-            setMenuList(routeToMenuFn(gameCreationRoutes, params));
+            setMenuList(routeToMenuFn(gameCreationRoutes));
         } else {
-            setMenuList(routeToMenuFn(routes, params));
+            setMenuList(routeToMenuFn(routes));
         }
-        const openKeys = matches
-            .filter((match) => match.pathname !== '/')
-            .map((match) => match.pathname);
-        setOpenKeys(openKeys);
-        setSelectedKeys([pathname]);
+        const keys = matches
+            .filter((match) => match.pathname !== '/' && match.handle)
+            .map((match) => (match.handle as RouteMeta)?.key);
+        setOpenKeys(keys);
+        setSelectedKeys(keys.slice(-1));
     }, [pathname, matches, params]);
 
     // events
     const onClick: MenuProps['onClick'] = ({ key }) => {
-        navigate(key);
+        let url = key;
+        Object.keys(params).forEach(paramKey => {
+            url = url.replace(`:${paramKey}`, params[paramKey] || '');
+        })
+        navigate(url);
     };
     const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
         const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);

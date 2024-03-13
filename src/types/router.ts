@@ -45,7 +45,7 @@ export interface RouteMeta {
 }
 
 export type AppRouteObject = {
-  order?: number;
-  meta?: RouteMeta;
-  children?: AppRouteObject[];
+    order?: number;
+    handle?: RouteMeta;
+    children?: AppRouteObject[];
 } & Omit<RouteObject, 'children'>;

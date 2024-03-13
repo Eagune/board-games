@@ -13,20 +13,34 @@ export const gameCreationRoutes: AppRouteObject[] = [
     },
     {
         path: 'card',
-        meta: { label: '卡牌定义', key: '/game-creation/:id/card' },
-        element: <CardPage />,
-    },
-    {
-        path: 'card/:cardId',
-        element: <CardTypePage />,
+        handle: {
+            label: '卡牌定义',
+            key: '/game-creation/:id/card'
+        },
+        children: [
+            {
+                index: true,
+                element: <CardPage />,
+            },
+            {
+                path: ':cardId',
+                element: <CardTypePage />,
+            },
+        ]
     },
     {
         path: 'area',
-        meta: { label: '游戏区域', key: '/game-creation/:id/area' },
+        handle: {
+            label: '游戏区域',
+            key: '/game-creation/:id/area'
+        }
     },
     {
         path: 'role',
-        meta: { label: '角色定义', key: '/game-creation/:id/role' },
+        handle: {
+            label: '角色定义',
+            key: '/game-creation/:id/role'
+        }
     },
 ]
 
@@ -43,19 +57,19 @@ const routes: AppRouteObject[] = [
     {
         path: 'game-list',
         element: <GameListPage />,
-        meta: { label: '游戏列表', key: '/game-list' },
+        handle: { label: '游戏列表', key: '/game-list' },
     },
     {
         path: 'business-analysis',
-        meta: { label: '运营数据', key: '/business-analysis' },
+        handle: { label: '运营数据', key: '/business-analysis' },
         children: [
             {
                 path: 'game-traffic',
-                meta: { label: '游戏流量', key: '/business-analysis/game-traffic' }
+                handle: { label: '游戏流量', key: '/business-analysis/game-traffic' }
             },
             {
                 path: 'user-feedback',
-                meta: { label: '用户反馈', key: '/business-analysis/user-feedback' }
+                handle: { label: '用户反馈', key: '/business-analysis/user-feedback' }
             }
         ]
     }
