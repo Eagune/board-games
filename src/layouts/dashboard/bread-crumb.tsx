@@ -14,7 +14,7 @@ export default function BreadCrumb() {
             setShowBreadcrumb(true);
             setBreadcrumbItems([
                 { href: '', title: 'Home' },
-                { href: '', title: name }
+                { href: '', title: name || '' }
             ]);
         } else {
             setShowBreadcrumb(false);

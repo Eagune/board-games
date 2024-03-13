@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { AppRouteObject } from "@/types/router";
 
 import GameListPage from "@/pages/game/list";
+import GameGuard from "../components/game-guard";
 
 export const gameCreationRoutes: AppRouteObject[] = [
     {
@@ -25,7 +26,11 @@ export const gameCreationRoutes: AppRouteObject[] = [
 const routes: AppRouteObject[] = [
     {
         path: 'game-creation/:id',
-        element: <Outlet />,
+        element: (
+            <GameGuard>
+                <Outlet />
+            </GameGuard>
+        ),
         children: gameCreationRoutes
     },
     {
