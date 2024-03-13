@@ -5,11 +5,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from "react-router-dom"
 import gameService from "@/api/services/gameService";
 import { useState } from "react";
-
+import { useSetGameInfo } from "@/store";
 
 export default function GameListPage() {
     const navigate = useNavigate();
     const client = useQueryClient();
+    const setGameInfo = useSetGameInfo();
     const [open, setOpen] = useState(false);
     
     const { mutate } = useMutation({
@@ -20,7 +21,7 @@ export default function GameListPage() {
     })
 
     const navigateToGame = (game: Game) => {
-        window.currentGame = game;
+        setGameInfo(game);
         navigate(`/game-creation/${game.id}/card`);
     }
 

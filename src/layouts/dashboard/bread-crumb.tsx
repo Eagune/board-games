@@ -1,9 +1,11 @@
 import { Breadcrumb } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useGameInfo } from '@/store';
 
 export default function BreadCrumb() {
     const { pathname } = useLocation();
+    const { name } = useGameInfo();
     const [breadcrumbItems, setBreadcrumbItems] = useState([{ href: '', title: 'Home' }]);
     const [showBreadcrumb, setShowBreadcrumb] = useState(false);
 
@@ -12,7 +14,7 @@ export default function BreadCrumb() {
             setShowBreadcrumb(true);
             setBreadcrumbItems([
                 { href: '', title: 'Home' },
-                { href: '', title: window.currentGame.name }
+                { href: '', title: name }
             ]);
         } else {
             setShowBreadcrumb(false);
