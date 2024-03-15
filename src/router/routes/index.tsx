@@ -1,10 +1,12 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { AppRouteObject } from "@/types/router";
 
 import GameListPage from "@/pages/game/list";
-import GameGuard from "../components/game-guard";
 import CardPage from "@/pages/game/creation/card";
 import CardTypePage from "@/pages/game/creation/card/type";
+import gameService from "@/api/services/gameService";
+import GameCreation from "@/layouts/dashboard/game-creation";
+import cardService from "@/api/services/cardService";
 
 export const gameCreationRoutes: AppRouteObject[] = [
     {
@@ -25,6 +27,10 @@ export const gameCreationRoutes: AppRouteObject[] = [
             {
                 path: ':cardId',
                 element: <CardTypePage />,
+                loader: async ({ params }) => {
+                    return cardService.getCardInfo(params.cardId as string)
+                },
+                errorElement: (<div />),
             },
         ]
     },
@@ -47,11 +53,11 @@ export const gameCreationRoutes: AppRouteObject[] = [
 const routes: AppRouteObject[] = [
     {
         path: 'game-creation/:id',
-        element: (
-            <GameGuard>
-                <Outlet />
-            </GameGuard>
-        ),
+        element: <GameCreation />,
+        loader: async ({ params }) => {
+            return gameService.getGameInfo(params.id as string)
+        },
+        errorElement: (<div />),
         children: gameCreationRoutes
     },
     {
