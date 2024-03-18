@@ -1,5 +1,11 @@
+import { useLoaderData } from 'react-router-dom';
+
 export default function CardTypePage() {
+    const data = useLoaderData();
+
     return (
-        <div></div>
+        <>
+            卡牌列表
+        </>
     );
 }
